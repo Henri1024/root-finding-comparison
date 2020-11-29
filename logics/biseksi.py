@@ -19,7 +19,7 @@ class Biseksi(Formula):
         xr_last = 100
 
         if self.f(xi) * self.f(xu) >= 0:
-            raise("Nilai f(xi) * f(xu) tidak negatif")
+            raise NameError("Nilai f(xi) * f(xu) tidak negatif")
         else:
             while ea > es:
                 xr = self.generate_xr(xi, xu)

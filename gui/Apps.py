@@ -63,14 +63,14 @@ class Gui():
         self.clicked = StringVar()
         self.clicked.set("Biseksi")
 
-        drop = OptionMenu(self.menu_frame, self.clicked, "Biseksi",
+        self.drop = OptionMenu(self.menu_frame, self.clicked, "Biseksi",
                           "Regulfasi", "Secant")
-        drop.grid(row=0, column=1)
+        self.drop.grid(row=0, column=1)
 
         # Button
         run_img = PhotoImage(file='./gui/run.png')
         run_button = Button(self.menu_frame, image=run_img,
-                            command=self.clicked, borderwidth=0, bg="#ffffff")
+                            command=self.computeOne, borderwidth=0, bg="#ffffff")
         run_button.grid(row=5, column=0, pady=20)
 
         compare_img = PhotoImage(file='./gui/compare.png')
@@ -86,7 +86,6 @@ class Gui():
         root.mainloop()
 
     # Function
-
     def confirm(self):
         mylabel = Label(self.menu_frame, text=self.clicked.get())
         mylabel.grid(row=5, column=1)
@@ -111,4 +110,25 @@ class Gui():
         xu = self.Xu_value.get()
         es = self.Err_value.get()
 
-        comparator.compare(fx, float(xi), float(xu), float(es))
+        try:
+            comparator.compare(fx, float(xi), float(xu), float(es))
+        except:
+            messagebox.showinfo(
+            "Warning", "Nilai f(Xi) * f(Xu) tidak < 0")
+
+    def computeOne(self):
+        fx = self.function_value.get()
+        xi = float(self.Xi_value.get())
+        xu = float(self.Xu_value.get())
+        es = float(self.Err_value.get())
+
+        # if self.clicked.get() == 'Biseksi':
+        #     print('biseksi')
+        # elif self.clicked.get() == 'Regulfasi':
+        #     print('Regulfasi')
+        # elif self.clicked.get() == 'Secant':
+        #     print('Secant')
+
+        comparator.compute(self.clicked.get(),fx,xi,xu,es)
+        
+

@@ -9,11 +9,11 @@ import numpy as np
 def compare(fx, xi, xu, es):
     fb = Biseksi()
 
-    exe(fb)
+    exe(fb,fx,xi,xu,es)
     fr = RegulaFalsi()
-    exe(fr)
+    exe(fr,fx,xi,xu,es)
     fs = Secant()
-    exe(fs)
+    exe(fs,fx,xi,xu,es)
 
     # making plots
     fig = make_subplots(
@@ -60,10 +60,40 @@ def compare(fx, xi, xu, es):
     fig.show()
 
 
-def exe(f):
-    f.set_function('3*x + np.sin(x) - math.e ** x')
-    f.compute(0, 1.5, 0.01)
+def exe(f, fx,xi,xu,es):
+    f.set_function(fx)
+    f.compute(xi, xu, es)
     # print('errors : ',f.get_errors())
     # print('xr : ',f.get_xrs())
-    print('number of steps : ', len(f.get_xrs()), end='\t')
-    print('number of time taken (in nanoseconds) : ', f.get_exe_time())
+    # print('number of steps : ', len(f.get_xrs()), end='\t')
+    # print('number of time taken (in nanoseconds) : ', f.get_exe_time())
+
+def compute(opt, fx, xi, xu, es):
+    if opt == 'Biseksi':
+        f = Biseksi()
+    elif opt == 'Regulfasi':
+        f = RegulaFalsi()
+    elif opt == 'Secant':
+        f = Secant()
+    else:
+        return
+    exe(f, fx, xi, xu, es)
+
+    fig = make_subplots(rows=2, cols=1,subplot_titles=("Graph Xrs", "Graph Errors"))
+
+    fig.append_trace(go.Scatter(
+        x=np.arange(1, f.get_total_iter()),
+        y=f.get_xrs(),
+        mode='lines+markers',
+        name='Xrs '+opt
+    ), row=1, col=1)
+
+    fig.append_trace(go.Scatter(
+        x=np.arange(1, f.get_total_iter()),
+        y=f.get_errors(),
+        mode='lines+markers',
+        name='Error '+opt
+    ), row=2, col=1)
+
+    fig.show()
+
