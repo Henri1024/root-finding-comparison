@@ -1,6 +1,10 @@
 from .base import Formula
 import time
 
+
+def current_milli_time(): return int(round(time.time() * 1000))
+
+
 class Secant(Formula):
     def __init__(self):
         self._errors = []
@@ -12,10 +16,9 @@ class Secant(Formula):
 
     def compute(self, xi, xu, es):
         self.reset()
-        start = time.time_ns()
+        start = current_milli_time()
 
         iter = 1
-
 
         x0, x1 = xi, xu
         ea = 100
@@ -31,4 +34,6 @@ class Secant(Formula):
             x0, x1 = x1, xi
             iter += 1
         self.set_total_iter(iter)
-        self.set_exe_time(time.time_ns()-start)
+        time_taken = current_milli_time()-start
+        for i in range(5):
+            self.set_exe_time(time_taken)

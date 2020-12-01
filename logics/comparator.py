@@ -9,11 +9,11 @@ import numpy as np
 def compare(fx, xi, xu, es):
     fb = Biseksi()
 
-    exe(fb,fx,xi,xu,es)
+    exe(fb, fx, xi, xu, es)
     fr = RegulaFalsi()
-    exe(fr,fx,xi,xu,es)
+    exe(fr, fx, xi, xu, es)
     fs = Secant()
-    exe(fs,fx,xi,xu,es)
+    exe(fs, fx, xi, xu, es)
 
     # making plots
     fig = make_subplots(
@@ -52,6 +52,8 @@ def compare(fx, xi, xu, es):
     fig.add_trace(go.Bar(name="Secant", y=['Secant'], x=[fs.get_exe_time()], orientation='h'),
                   row=1, col=3)
 
+    print(fb.get_exe_time(), '\t', fr.get_exe_time(), '\t', fs.get_exe_time())
+
     fig.update_layout(
         title='f(x) = '+str(fb.get_function()),
         legend_title="Legend"
@@ -60,13 +62,14 @@ def compare(fx, xi, xu, es):
     fig.show()
 
 
-def exe(f, fx,xi,xu,es):
+def exe(f, fx, xi, xu, es):
     f.set_function(fx)
     f.compute(xi, xu, es)
     # print('errors : ',f.get_errors())
     # print('xr : ',f.get_xrs())
     # print('number of steps : ', len(f.get_xrs()), end='\t')
     # print('number of time taken (in nanoseconds) : ', f.get_exe_time())
+
 
 def compute(opt, fx, xi, xu, es):
     if opt == 'Biseksi':
@@ -79,7 +82,8 @@ def compute(opt, fx, xi, xu, es):
         return
     exe(f, fx, xi, xu, es)
 
-    fig = make_subplots(rows=2, cols=1,subplot_titles=("Graph Xrs", "Graph Errors"))
+    fig = make_subplots(rows=2, cols=1, subplot_titles=(
+        "Graph Xrs", "Graph Errors"))
 
     fig.append_trace(go.Scatter(
         x=np.arange(1, f.get_total_iter()),
@@ -95,5 +99,9 @@ def compute(opt, fx, xi, xu, es):
         name='Error '+opt
     ), row=2, col=1)
 
-    fig.show()
+    fig.update_layout(
+        title=opt+' : f(x) = '+str(f.get_function()),
+        legend_title="Legend"
+    )
 
+    fig.show()

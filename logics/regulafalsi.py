@@ -1,6 +1,10 @@
 from .base import Formula
 import time
 
+
+def current_milli_time(): return int(round(time.time() * 1000))
+
+
 class RegulaFalsi(Formula):
     def __init__(self):
         self._errors = []
@@ -9,10 +13,10 @@ class RegulaFalsi(Formula):
     def generate_xr(self, xi, xu):
         fxu = self.f(xu)
         return xu - (fxu * (xi-xu) / (self.f(xi) - fxu))
-    
+
     def compute(self, xi, xu, es):
         self.reset()
-        start = time.time_ns()
+        start = current_milli_time()
 
         ea = 100.0
         iter = 1
@@ -24,7 +28,7 @@ class RegulaFalsi(Formula):
             while ea > es:
                 xr = self.generate_xr(xi, xu)
                 fxr = self.f(xr)
-                
+
                 if self.f(xi)*fxr < 0:
                     xu = xr
                 elif self.f(xi)*fxr > 0:
@@ -37,7 +41,9 @@ class RegulaFalsi(Formula):
 
                 self.append_xrs(xr)
                 xr_last = xr
-                iter +=1
+                iter += 1
         self.set_total_iter(iter)
-        self.set_exe_time(time.time_ns()-start)
 
+        time_taken = current_milli_time()-start
+        for i in range(5):
+            self.set_exe_time(time_taken)
