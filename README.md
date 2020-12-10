@@ -6,12 +6,14 @@ aplikasi ini menggunakan :
 - [numpy](https://numpy.org/)
 - [plotly](https://plotly.com/)
 
-### Test my app
+### Run my app
 ```
-#pip / pip3, tergantung instalasi device masing-masing
-$ pip install numpy
-$ pip install plotly
+pip install requirements.txt
 
-#python / python3, tergantung instalasi device masing-masing
-$ python main.py
+python main.py
 ```
+
+saya rekomendasikan untuk menjalankan dari virtual environment
+### Virtual env
+- [Tutorial Pengunaan Virtual Env](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
+
