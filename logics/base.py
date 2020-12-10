@@ -30,6 +30,7 @@ class Formula:
     def f(self, val):
         exe = self.get_function()
         exe = exe.replace('x',str(val))
+        
         return eval(exe)
 
     def get_function(self):

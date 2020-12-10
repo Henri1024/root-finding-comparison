@@ -102,7 +102,7 @@ class Gui():
 
     def popup(self):
         messagebox.showinfo(
-            "Info", "Kelompok : \nAndri Kuwito (5351800xx),\nDharmawan (535180075),\nHenri (535180074),\nJourdan (5351800xx)")
+            "Info", "Kelompok : \nAndri Kuwito (535180062),\nSteven Dharmawan (535180075),\nHenri (535180074),\nJourdan Stanley (535180097)")
 
     def compare_clicked(self):
         fx = self.function_value.get()
@@ -114,7 +114,7 @@ class Gui():
             comparator.compare(fx, float(xi), float(xu), float(es))
         except:
             messagebox.showinfo(
-            "Warning", "Nilai f(Xi) * f(Xu) tidak < 0")
+            "Warning", "Nilai f(Xi) * f(Xu) tidak < 0 or invalid function")
 
     def computeOne(self):
         fx = self.function_value.get()
@@ -129,6 +129,12 @@ class Gui():
         # elif self.clicked.get() == 'Secant':
         #     print('Secant')
 
-        comparator.compute(self.clicked.get(),fx,xi,xu,es)
+        try:
+            comparator.compute(self.clicked.get(),fx,xi,xu,es)
+        except:
+            messagebox.showinfo(
+            "Warning", "Nilai f(Xi) * f(Xu) tidak < 0 or invalid function")
+
+        
         
 
